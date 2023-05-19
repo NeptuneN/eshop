@@ -1,9 +1,109 @@
 body {
     font-family: 'Poppins', sans-serif;
-    // margin: unset;
+    margin: unset;
+}
+
+.banner {
+    margin: 0 0 80px 0;
+
+    .inner {
+        background-image: url('../images/examplebanner.jpg');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-blend-mode: soft-light;
+        background-color: cadetblue;
+        height: 500px;
+        position: relative;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .logo {
+            position: absolute;
+            left: 40px;
+            top: 40px;
+
+            img {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        .search-bar {
+            position: absolute;
+            top: 40px;
+            display: flex;
+            align-items: center;
+
+            input {
+                padding: 14px;
+                border-color: unset;
+                border-radius: 18px 0px 0px 18px;
+                border-left: 2px solid black;
+                border-top: 2px solid black;
+                border-bottom: 2px solid black;
+                border-right: 0px;
+                width: 439px;
+
+                &:focus { // SCSS uses the & to reference the parent, so this is the same as input:focus
+                    outline: none;
+                }
+            }
+
+            button {
+                cursor: pointer;
+                border: none;
+                background-color: transparent;
+                width: 47px;
+                height: 47px;
+                padding: unset;
+
+                border-left: 0px;
+                border-top: 2px solid black;
+                border-bottom: 2px solid black;
+                border-right: 2px solid black;
+                border-radius: 0px 18px 18px 0px;
+                background-color: white;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                    width: 24px;
+                    height: 24px;
+                }
+            }
+        }
+
+        .banner-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            h1, p {
+                margin: unset;
+                font-style: italic;
+            }
+
+            h1 {
+                font-size: 64px;
+                font-weight: 600;
+            }
+
+            p {
+                font-size: 24px;
+                font-weight: 500;
+            }
+        }
+    }
 }
 
 .front-page {
+    margin: 0 0 80px 0;
+
     display: flex;
     flex-direction: column;
     align-items: center;
