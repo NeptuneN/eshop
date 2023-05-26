@@ -1,11 +1,11 @@
-async function Start() {
-    const directusAsset = "http://localhost:8055/assets/"
-    const endpoint = "https://kks-eshop.hasura.app/v1/graphql";
-    const headers = {
-        "content-type": "application/json",
-        "x-hasura-admin-secret": "sVDVwDf88gNYrXxcDjN1wwr1Wa0WNic0CX2rvuK669xtX9ZxAsifEsQMFuBa8Usq",
-    };
+const directusAsset = "http://localhost:8055/assets/" // use it for image src paths
+const endpoint = "https://kks-eshop.hasura.app/v1/graphql";
+const headers = {
+    "content-type": "application/json",
+    "x-hasura-admin-secret": "sVDVwDf88gNYrXxcDjN1wwr1Wa0WNic0CX2rvuK669xtX9ZxAsifEsQMFuBa8Usq",
+};
 
+async function FrontPageProducts() {
     const FrontPageProductsQuery = {
         "operationName": "FrontPageProducts",
         "query": `query FrontPageProducts {
@@ -69,4 +69,40 @@ async function Start() {
     });
 }
 
-Start();
+async function FrontPageFilterSettings() {
+    const FrontPageFilterSettings = {
+        "operationName": "FrontPageFilterSettings",
+        "query": `query FrontPageFilterSettings {
+            categories(where: {products: {category_id: {_is_null: false}}}) {
+              name
+            }
+          }`,
+        "variables": {}
+    };
+
+    const options = {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(FrontPageFilterSettings)
+    };
+
+    const response = await fetch(endpoint, options);
+    const data = await response.json();
+
+    console.log(data.data);
+    console.log(data.errors);
+
+    const categories = data.data.categories;
+    const filterSettings = document.querySelector(".filter-settings");
+
+    categories.forEach(category => {
+        const filterName = document.createElement("a");
+        filterName.textContent = category.name;
+        filterName.classList.add("filter-name");
+        
+        filterSettings.appendChild(filterName);
+    });
+}
+
+FrontPageProducts();
+FrontPageFilterSettings();

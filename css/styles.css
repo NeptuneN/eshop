@@ -120,16 +120,26 @@ footer .inner .privacy-policy a {
   gap: 24px;
   max-width: 1400px;
 }
-.front-page .inner .filter {
+.front-page .inner .filter-container {
   width: 30%;
   border: 3px solid #222;
   border-radius: 16px;
   box-sizing: border-box;
 }
-.front-page .inner .filter .title {
+.front-page .inner .filter-container .title {
   display: flex;
   justify-content: center;
   border-bottom: 1px solid #222;
+}
+.front-page .inner .filter-container .filter-settings {
+  padding: 12px 12px;
+  display: flex;
+  flex-direction: column;
+}
+.front-page .inner .filter-container .filter-settings .filter-name {
+  cursor: pointer;
+  text-decoration: none;
+  color: #222;
 }
 .front-page .inner .product-container {
   width: 70%;

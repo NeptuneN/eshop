@@ -144,7 +144,7 @@ footer {
         gap: 24px;
         max-width: 1400px;
 
-        .filter {
+        .filter-container {
             width: 30%;
             border: 3px solid $site-dark;
             border-radius: 16px;
@@ -154,6 +154,18 @@ footer {
                 display: flex;
                 justify-content: center;
                 border-bottom: 1px solid $site-dark;
+            }
+
+            .filter-settings {
+                padding: 12px 12px;
+                display: flex;
+                flex-direction: column;
+
+                .filter-name {
+                    cursor: pointer;
+                    text-decoration: none;
+                    color: $site-dark;
+                }
             }
         }
 
