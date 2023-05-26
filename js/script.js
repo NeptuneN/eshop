@@ -6,7 +6,7 @@ async function Start() {
         "x-hasura-admin-secret": "sVDVwDf88gNYrXxcDjN1wwr1Wa0WNic0CX2rvuK669xtX9ZxAsifEsQMFuBa8Usq",
     };
 
-    const graphqlQuery = {
+    const FrontPageProductsQuery = {
         "operationName": "FrontPageProducts",
         "query": `query FrontPageProducts {
             products(where: {on_frontpage: {_eq: true}}, limit: 6) {
@@ -21,7 +21,7 @@ async function Start() {
     const options = {
         method: "POST",
         headers: headers,
-        body: JSON.stringify(graphqlQuery)
+        body: JSON.stringify(FrontPageProductsQuery)
     };
 
     const response = await fetch(endpoint, options);
