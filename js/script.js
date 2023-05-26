@@ -168,6 +168,8 @@ async function AddedToCart() {
     });
 }
 
-AddedToCart();
-FrontPageProducts();
-FrontPageFilterSettings();
+window.addEventListener("DOMContentLoaded", () => {
+    FrontPageProducts();
+    FrontPageFilterSettings();
+    AddedToCart();
+});

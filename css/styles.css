@@ -180,4 +180,8 @@ footer .inner .privacy-policy a {
 .front-page .inner .product-container .product .name-price-container .product-price, .front-page .inner .product-container .product .name-price-container .product-name {
   font-size: 24px;
   margin: unset;
+}
+
+.privacy-policy .inner .title {
+  text-align: center;
 }/*# sourceMappingURL=styles.css.map */
