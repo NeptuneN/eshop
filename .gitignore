@@ -1,2 +1,3 @@
 kks-hasura/config.yaml
 kks/node_modules
+kks/node_modules/.bin/acorn
