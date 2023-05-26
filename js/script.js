@@ -118,7 +118,7 @@ async function AddedToCart() {
     };
 
     const options = {
-        method: "GET",
+        method: "POST",
         headers: headers,
         body: JSON.stringify(graphqlQuery)
     };
