@@ -39,6 +39,11 @@ async function FrontPageProducts() { // Can use "limit 6" to limit the amount of
         productDiv.classList.add("product");
         productDiv.setAttribute("category-id", product.category_id);
 
+        // this is lame shit right here but for the sake of testing it does what it needs to
+        productDiv.onclick = function () {
+            window.location.href = "product.html?product=" + product.name;
+        };
+
         const productNamePriceDiv = document.createElement("div");
         productNamePriceDiv.classList.add("name-price-container");
 
