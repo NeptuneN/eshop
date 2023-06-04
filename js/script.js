@@ -44,6 +44,8 @@ async function FrontPageProducts() { // Can use "limit 6" to limit the amount of
             window.location.href = "product.html?product=" + product.name;
         };
 
+        // productDiv.onclick = function() { GetProductData() };
+
         const productNamePriceDiv = document.createElement("div");
         productNamePriceDiv.classList.add("name-price-container");
 
@@ -215,6 +217,35 @@ async function AddedToCart() {
         productContainer.appendChild(productDiv);
     });
 }
+
+// async function GetProductData() {
+//     const productID = this.getAttribute("id");
+
+//     const GetProductData = {
+//         "operationName": "GetProductData",
+//         "query": `query GetProductData {
+//             products(where: {id: {_eq: ${productID}}}) {
+//               description
+//               image
+//               name
+//               price
+//             }
+//           }
+//         }`,
+//     };
+
+//     const options = {
+//         method: "POST",
+//         headers: headers,
+//         body: JSON.stringify(GetProductData)
+//     };
+
+//     const response = await fetch(endpoint, options);
+//     const data = await response.json();
+
+//     console.log("GetProductData", data.data);
+//     console.log("GetProductData", data.errors);
+// }
 
 
 window.addEventListener("DOMContentLoaded", () => {
