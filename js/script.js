@@ -218,11 +218,9 @@ async function AddedToCart() {
 
 
 window.addEventListener("DOMContentLoaded", () => {
-    if (window.location === "frontpage") {
-        FrontPageProducts();
-        FrontPageFilterSettings();
-    }
 
+    FrontPageProducts();
+    FrontPageFilterSettings();
     AddedToCart();
 
 });
