@@ -50,6 +50,8 @@ async function FrontPageProducts() { // Can use "limit 6" to limit the amount of
         const productImage = document.createElement("img");
         productImage.src = directusAsset + product.image;
         productImage.alt = product.name;
+        productImage.height = 500;
+        productImage.width = 500;
         productImage.classList.add("product-image");
 
         const productName = document.createElement("h2");
@@ -149,13 +151,13 @@ async function FilterProducts() {
 }
 
 async function AddedToCart() {
-    const graphqlQuery = {
-        "operationName": "ProductsToTheCart",
-        "query": `query ProductsToCart {
-            products(where: {added_tocart: {_eq: true}}, limit: 6) {
-            image
-            name
-            price
+    const ProductsInCart = {
+        "operationName": "ProductsInCart",
+        "query": `query ProductsInCart {
+            products(where: {in_cart: {_eq: true}}) {
+              image
+              name
+              price
             }
         }`,
         "variables": {}
@@ -164,7 +166,7 @@ async function AddedToCart() {
     const options = {
         method: "POST",
         headers: headers,
-        body: JSON.stringify(graphqlQuery)
+        body: JSON.stringify(ProductsInCart)
     };
 
     const response = await fetch(endpoint, options);
@@ -186,6 +188,8 @@ async function AddedToCart() {
         const productImage = document.createElement("img");
         productImage.src = directusAsset + product.image;
         productImage.alt = product.name;
+        productImage.height = 100;
+        productImage.width = 100;
         productImage.classList.add("product-image");
 
         const productName = document.createElement("h2");
@@ -212,8 +216,13 @@ async function AddedToCart() {
     });
 }
 
+
 window.addEventListener("DOMContentLoaded", () => {
-    FrontPageProducts();
-    FrontPageFilterSettings();
+    if (window.location === "frontpage") {
+        FrontPageProducts();
+        FrontPageFilterSettings();
+    }
+
     AddedToCart();
+
 });
