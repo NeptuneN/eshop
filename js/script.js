@@ -13,6 +13,7 @@ async function FrontPageProducts() { // Can use "limit 6" to limit the amount of
             image
             name
             price
+            id
             category_id
             }
         }`,
@@ -36,15 +37,23 @@ async function FrontPageProducts() { // Can use "limit 6" to limit the amount of
 
     products.forEach(product => {
         const productDiv = document.createElement("div");
+
         productDiv.classList.add("product");
         productDiv.setAttribute("category-id", product.category_id);
+        productDiv.setAttribute("id", product.id);
 
-        // this is lame shit right here but for the sake of testing it does what it needs to
-        productDiv.onclick = function () {
-            window.location.href = "product.html?product=" + product.name;
+        //////////////////////////////////////////////////////////////////////////////
+
+        // NOTE: The product data isn't transferred over to the product.html page, though the data is fetched.
+        // You can check the console log after disabling the redirect below.
+
+        productDiv.onclick = GetProductData; // fetches product data on click
+
+        productDiv.onclick = function () { // redirects to product.html on click with the product id in the url
+            window.location.href = "product.html?product=" + product.id;
         };
 
-        // productDiv.onclick = function() { GetProductData() };
+        //////////////////////////////////////////////////////////////////////////////
 
         const productNamePriceDiv = document.createElement("div");
         productNamePriceDiv.classList.add("name-price-container");
@@ -120,6 +129,7 @@ async function FrontPageFilterSettings() {
 
 async function FilterProducts() {
     const categoryID = this.getAttribute("id");
+    console.log("categoryID", categoryID);
 
     const FilterProducts = {
         "operationName": "FilterProducts",
@@ -218,40 +228,40 @@ async function AddedToCart() {
     });
 }
 
-// async function GetProductData() {
-//     const productID = this.getAttribute("id");
+async function GetProductData() {
+    const productID = this.getAttribute("id");
+    console.log("productID", productID);
 
-//     const GetProductData = {
-//         "operationName": "GetProductData",
-//         "query": `query GetProductData {
-//             products(where: {id: {_eq: ${productID}}}) {
-//               description
-//               image
-//               name
-//               price
-//             }
-//           }
-//         }`,
-//     };
+    const GetProductData = {
+        "operationName": "GetProductData",
+        "query": `query GetProductData {
+            products(where: {id: {_eq: ${productID}}}) {
+                description
+                image
+                name
+                price
+                id
+            }
+        }`,
+    };
 
-//     const options = {
-//         method: "POST",
-//         headers: headers,
-//         body: JSON.stringify(GetProductData)
-//     };
+    const options = {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(GetProductData)
+    };
 
-//     const response = await fetch(endpoint, options);
-//     const data = await response.json();
+    const response = await fetch(endpoint, options);
+    const data = await response.json();
 
-//     console.log("GetProductData", data.data);
-//     console.log("GetProductData", data.errors);
-// }
+    console.log("GetProductData", data.data);
+    console.log("GetProductData", data.errors);
+}
 
 
 window.addEventListener("DOMContentLoaded", () => {
-
-    FrontPageProducts();
-    FrontPageFilterSettings();
-    AddedToCart();
-
+    // removes unnecessary runs of functions
+    window.location.pathname == "/frontpage.html" ? FrontPageProducts() : console.log("Not on frontpage");
+    window.location.pathname == "/frontpage.html" ? FrontPageFilterSettings() : console.log("Not on frontpage");
+    window.location.pathname == "/cart.html" ? AddedToCart() : console.log("Not on cart");
 });
