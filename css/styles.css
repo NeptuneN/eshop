@@ -185,23 +185,39 @@ footer .inner .privacy-policy a {
 }
 
 .product-detail .product-data {
-  margin: 0px 160px 0px 160px;
-  display: flex;
-  align-items: center;
-  width: 40%;
+  margin: 50px auto;
+  width: 70%;
   height: 300px;
   border: 3px solid #222;
   border-radius: 16px;
-  float: left;
+  padding: 50px;
 }
+
+.product-detail .product-name {
+  text-align: right;
+}
+
+.product-detail .product-price {
+  text-align: right;
+}
+
+.product-detail .product-image {
+  position: absolute;
+  top: 600px;
+  display: flex;
+  width: 300px;
+  height: 300px;
+}
+
 .product-detail .description {
-  margin: 0px 160px 80px 160px;
+  position: absolute;
+  top: 900px;
+  margin-top: auto;
   padding: 24px;
   display: flex;
   align-items: center;
   border: 3px solid #222;
   border-radius: 16px;
-  margin-top: 350px;
 }
 
 .privacy-policy .inner .title {
