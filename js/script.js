@@ -47,10 +47,10 @@ async function FrontPageProducts() { // Can use "limit 6" to limit the amount of
         // NOTE: The product data isn't transferred over to the product.html page, though the data is fetched.
         // You can check the console log after disabling the redirect below.
 
-        productDiv.onclick = GetProductData; // fetches product data on click
-
-        productDiv.onclick = function () { // redirects to product.html on click with the product id in the url
-            window.location.href = "product.html?product=" + product.id;
+        productDiv.onclick = function () {
+            const productID = product.id;
+            window.location.href = "product.html?productID=" + productID;
+            GetProductData(productID);
         };
 
         //////////////////////////////////////////////////////////////////////////////
@@ -229,39 +229,84 @@ async function AddedToCart() {
 }
 
 async function GetProductData() {
-    const productID = this.getAttribute("id");
-    console.log("productID", productID);
-
-    const GetProductData = {
-        "operationName": "GetProductData",
-        "query": `query GetProductData {
-            products(where: {id: {_eq: ${productID}}}) {
-                description
-                image
-                name
-                price
-                id
-            }
-        }`,
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = BigInt(urlParams.get("productID"));
+    console.log("productId", productId);
+  
+    const getProductDataQuery = `
+      query GetProductData($productId: bigint) {
+        products(where: { id: { _eq: $productId } }) {
+          description
+          image
+          name
+          price
+          id
+        }
+      }
+    `;
+  
+    const variables = {
+      productId: productId.toString()
     };
-
+  
     const options = {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(GetProductData)
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        query: getProductDataQuery,
+        variables: variables
+      }),
     };
-
-    const response = await fetch(endpoint, options);
-    const data = await response.json();
-
-    console.log("GetProductData", data.data);
-    console.log("GetProductData", data.errors);
+  
+    try {
+      const response = await fetch(endpoint, options);
+      const data = await response.json();
+  
+      console.log("GetProductData", data.data);
+      console.log("GetProductData", data.errors);
+  
+      // Clear the previous content
+      const productDataContainer = document.querySelector(".product-data");
+      productDataContainer.innerHTML = "";
+  
+      if (data.data && data.data.products && data.data.products.length > 0) {
+        const product = data.data.products[0];
+  
+        // Create elements to display the product data
+        const productName = document.createElement("h2");
+        productName.textContent = product.name;
+        productName.classList.add("product-name");
+  
+        const productPrice = document.createElement("p");
+        productPrice.textContent = product.price + "€";
+        productPrice.classList.add("product-price");
+  
+        const productDescription = document.createElement("div");
+        productDescription.textContent = product.description;
+        productDescription.classList.add("description");
+  
+        const productImage = document.createElement("img");
+        productImage.src = directusAsset + product.image;
+        productImage.alt = product.name;
+        productImage.classList.add("product-image");
+  
+        // Append the product data elements to the productDataContainer
+        productDataContainer.appendChild(productName);
+        productDataContainer.appendChild(productPrice);
+        productDataContainer.appendChild(productDescription);
+        productDataContainer.appendChild(productImage);
+      } else {
+        console.log("No product data found");
+      }
+    } catch (error) {
+      console.log("Error retrieving product data:", error);
+    }
 }
-
 
 window.addEventListener("DOMContentLoaded", () => {
     // removes unnecessary runs of functions
     window.location.pathname == "/frontpage.html" ? FrontPageProducts() : console.log("Not on frontpage");
     window.location.pathname == "/frontpage.html" ? FrontPageFilterSettings() : console.log("Not on frontpage");
     window.location.pathname == "/cart.html" ? AddedToCart() : console.log("Not on cart");
+    window.location.pathname == "/product.html" ? GetProductData() : console.log("Not on product page");
 });
